@@ -1,0 +1,23 @@
+{
+    "name": "balpom/simple-cache",
+    "description": "Simple realisation of simple PSR16 cache.",
+    "type": "library",
+    "homepage": "https://www.balpom.ru",
+    "license": "MIT",
+    "keywords": ["psr16", "psr-16", "cache", "simple", "simple-cache", "simplecache", "caching", "file", "file cache", "filecache", "local"],
+    "autoload": {
+        "psr-4": {
+            "Balpom\\SimpleCache\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mikhail (Balpom)"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "psr/simple-cache": "^3.0",
+        "balpom/storage": ">=0.5"
+    }
+}
