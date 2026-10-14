@@ -19,7 +19,7 @@ class PSR16 implements CacheInterface
 
     public function get(string $key, mixed $default = null): mixed
     {
-        $this->checkKeyValue($key, $default);
+        $this->checkKey($key);
 
         if ($this->isExpired($key)) {
             try {
