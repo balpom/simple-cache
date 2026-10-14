@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Balpom\SimpleCache;
 
 use Psr\SimpleCache\CacheInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 use Balpom\Storage\DatedKeyValueStorage;
 use Balpom\Storage\StorageException;
 
@@ -144,8 +143,20 @@ class PSR16 implements CacheInterface
 
     protected function checkKeyValue(string $key, mixed $value): void
     {
-        $this->checkKey($key);
-        $this->checkValue($value);
+        $message = '';
+        try {
+            $this->checkKey($key);
+        } catch (InvalidArgumentException $e) {
+            $message .= $e->getMessage() . ' ';
+        }
+        try {
+            $this->checkValue($value);
+        } catch (InvalidArgumentException $e) {
+            $message .= $e->getMessage();
+        }
+        if (!empty($message)) {
+            throw new InvalidArgumentException(trim($message));
+        }
     }
 
     protected function isIterable(mixed $something): void
@@ -166,7 +177,7 @@ class PSR16 implements CacheInterface
         return $time < time() ? true : false;
     }
 
-    protected function getExpiry(int $ttl = 0, null|int $from = null): null|int
+    protected function getExpiry(null|int $ttl = 0, null|int $from = null): null|int
     {
         if (null === $from) {
             $from = time();
